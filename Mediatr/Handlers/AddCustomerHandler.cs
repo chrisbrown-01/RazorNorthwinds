@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using RazorNorthwinds.Commands;
 using RazorNorthwinds.Data;
+using RazorNorthwinds.Mediatr.Commands;
 
-namespace RazorNorthwinds.Handlers
+namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class AddCustomerHandler : IRequestHandler<AddCustomerCommand>
     {

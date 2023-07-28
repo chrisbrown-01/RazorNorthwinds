@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RazorNorthwinds.Mediatr.Queries;
 using RazorNorthwinds.Models;
-using RazorNorthwinds.Queries;
 
 namespace RazorNorthwinds.Pages.CustomerPage
 {

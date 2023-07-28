@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using RazorNorthwinds.Data;
+using RazorNorthwinds.Mediatr.Queries;
 using RazorNorthwinds.Models;
-using RazorNorthwinds.Queries;
 
-namespace RazorNorthwinds.Handlers
+namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class GetCustomersHandler : IRequestHandler<GetCustomersQuery, IList<Customer>>
     {

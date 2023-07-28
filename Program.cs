@@ -1,5 +1,7 @@
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RazorNorthwinds.Data;
+using RazorNorthwinds.Mediatr.Behaviours;
 
 namespace RazorNorthwinds
 {
@@ -20,6 +22,7 @@ namespace RazorNorthwinds
             builder.Services.AddRazorPages();
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+            builder.Services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
             var app = builder.Build();
 

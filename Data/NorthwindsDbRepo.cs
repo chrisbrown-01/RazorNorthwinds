@@ -22,5 +22,18 @@ namespace RazorNorthwinds.Data
         {
             return await _context.Customers.ToListAsync();
         }
+
+        public async Task<Customer?> GetCustomerByIdAsync(string id)
+        {
+            return await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId.ToLower() == id.ToLower());
+        }
+
+        public async Task EventOccurred(Customer customer, string evt)
+        {
+            var _customer = await _context.Customers.SingleOrDefaultAsync(c => c.CustomerId.ToLower() == customer.CustomerId.ToLower());
+            if (_customer == null) return;
+            _customer.Region = evt;
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -2,7 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using RazorNorthwinds.Commands;
+using RazorNorthwinds.Mediatr.Commands;
+using RazorNorthwinds.Mediatr.Notifications;
 using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Pages.CustomerPage
@@ -32,6 +33,7 @@ namespace RazorNorthwinds.Pages.CustomerPage
             }
 
             await _mediator.Send(new AddCustomerCommand(Customer));
+            await _mediator.Publish(new CustomerRegionUpdatedNotification(Customer));
 
             return RedirectToPage("./IndexMediatr");
         }
