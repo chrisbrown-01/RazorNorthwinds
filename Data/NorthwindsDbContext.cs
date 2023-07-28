@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Microsoft.EntityFrameworkCore;
+using RazorNorthwinds.Models;
 
-namespace RazorNorthwinds.Models;
+namespace RazorNorthwinds.Data;
 
-public partial class NorthwindsContext : DbContext
+public partial class NorthwindsDbContext : DbContext
 {
-    public NorthwindsContext()
+    public NorthwindsDbContext()
     {
     }
 
-    public NorthwindsContext(DbContextOptions<NorthwindsContext> options)
+    public NorthwindsDbContext(DbContextOptions<NorthwindsDbContext> options)
         : base(options)
     {
     }

@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using RazorNorthwinds.Data;
+
 namespace RazorNorthwinds
 {
     public class Program
@@ -6,8 +9,17 @@ namespace RazorNorthwinds
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+            builder.Services.AddDbContext<NorthwindsDbContext>(options =>
+                options.UseSqlServer(connectionString));
+
+            builder.Services.AddScoped<NorthwindsDbRepo>();
+
             // Add services to the container.
             builder.Services.AddRazorPages();
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
             var app = builder.Build();
 
