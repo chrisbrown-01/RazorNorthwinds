@@ -2,40 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using RazorNorthwinds.Data;
+using RazorNorthwinds.Mediatr.Commands;
+using RazorNorthwinds.Mediatr.Queries;
 using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Pages.CustomerPage
 {
     public class DeleteModel : PageModel
     {
-        private readonly NorthwindsDbContext _context;
+        private readonly IMediator _mediator;
 
-        public DeleteModel(NorthwindsDbContext context)
+        public DeleteModel(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         [BindProperty]
-      public Customer Customer { get; set; } = default!;
+        public Customer Customer { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id == null || _context.Customers == null)
+            if (String.IsNullOrWhiteSpace(id))
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var customer = await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = await _mediator.Send(new GetCustomerByIdQuery(id));
 
             if (customer == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Customer = customer;
             }
@@ -44,18 +47,12 @@ namespace RazorNorthwinds.Pages.CustomerPage
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
-            if (id == null || _context.Customers == null)
+            if (String.IsNullOrWhiteSpace(id))
             {
-                return NotFound();
+                return BadRequest();
             }
-            var customer = await _context.Customers.FindAsync(id);
 
-            if (customer != null)
-            {
-                Customer = customer;
-                _context.Customers.Remove(Customer);
-                await _context.SaveChangesAsync();
-            }
+            await _mediator.Send(new DeleteCustomerCommand(id));
 
             return RedirectToPage("./Index");
         }

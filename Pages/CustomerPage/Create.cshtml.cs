@@ -2,42 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RazorNorthwinds.Data;
+using RazorNorthwinds.Mediatr.Commands;
+using RazorNorthwinds.Mediatr.Notifications;
 using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Pages.CustomerPage
 {
     public class CreateModel : PageModel
     {
-        private readonly NorthwindsDbContext _context;
+        private readonly IMediator _mediator;
 
-        public CreateModel(NorthwindsDbContext context)
+        public CreateModel(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
+
+        [BindProperty]
+        public Customer Customer { get; set; } = default!;
 
         public IActionResult OnGet()
         {
             return Page();
         }
 
-        [BindProperty]
-        public Customer Customer { get; set; } = default!;
-        
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        // TODO: To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Customers == null || Customer == null)
+            if (!ModelState.IsValid || Customer == null)
             {
                 return Page();
             }
 
-            _context.Customers.Add(Customer);
-            await _context.SaveChangesAsync();
+            await _mediator.Send(new AddCustomerCommand(Customer));
+            await _mediator.Publish(new CustomerRegionUpdatedNotification(Customer));
 
             return RedirectToPage("./Index");
         }
