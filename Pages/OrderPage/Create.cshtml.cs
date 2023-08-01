@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RazorNorthwinds.Data;
+using RazorNorthwinds.Mediatr.Commands;
+using RazorNorthwinds.Mediatr.Handlers;
+using RazorNorthwinds.Mediatr.Queries;
 using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Pages.OrderPage
@@ -13,34 +17,33 @@ namespace RazorNorthwinds.Pages.OrderPage
     // TODO: hangfire auto create orders?
     public class CreateModel : PageModel
     {
-        private readonly RazorNorthwinds.Data.NorthwindsDbContext _context;
+        private readonly IMediator _mediator;
 
-        public CreateModel(RazorNorthwinds.Data.NorthwindsDbContext context)
+        public CreateModel(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         [BindProperty]
         public Order Order { get; set; } = default!;
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CompanyName");
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName"); 
-            ViewData["ShipVia"] = new SelectList(_context.Shippers, "ShipperId", "CompanyName");
+            ViewData["CustomerId"] = new SelectList(await _mediator.Send(new GetCustomersQuery()), "CustomerId", "CompanyName");
+            ViewData["EmployeeId"] = new SelectList(await _mediator.Send(new GetEmployeesQuery()), "EmployeeId", "LastName");
+            ViewData["ShipVia"] = new SelectList(await _mediator.Send(new GetShippersQuery()), "ShipperId", "CompanyName");
             return Page();
         }
 
         // TODO: To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync() // TODO: validation that dates are not previous to today, older orders, etc.
         {
-            if (!ModelState.IsValid || _context.Orders == null || Order == null)
+            if (!ModelState.IsValid || Order == null)
             {
                 return Page();
             }
 
-            _context.Orders.Add(Order);
-            await _context.SaveChangesAsync();
+            await _mediator.Send(new AddOrderCommand(Order));
 
             return RedirectToPage("./Index");
         }

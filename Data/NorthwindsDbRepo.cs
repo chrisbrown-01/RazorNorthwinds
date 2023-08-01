@@ -165,6 +165,43 @@ namespace RazorNorthwinds.Data
 
         #endregion Employee Methods
 
+        #region Order Methods
+
+        public async Task AddOrderAsync(Order order)
+        {
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IList<Order>> GetOrdersAsync()
+        {
+            return await _context.Orders
+                //.Include(o => o.Customer)
+                //.Include(o => o.Employee)
+                //.Include(o => o.ShipViaNavigation)
+                .ToListAsync();
+        }
+
+        public async Task<Order?> GetOrderByIdAsync(int id)
+        {
+            return await _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.Employee)
+                .Include(o => o.ShipViaNavigation)
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+        }
+
+        #endregion Order Methods
+
+        #region Shipper Methods
+
+        internal async Task<IList<Shipper>> GetShippersAsync()
+        {
+            return await _context.Shippers.ToListAsync();
+        }
+
+        #endregion Shipper Methods
+
         private bool CustomerExists(string id) // TODO: make public
         {
             return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();

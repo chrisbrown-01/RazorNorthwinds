@@ -39,6 +39,12 @@
             <div class="form-group">
                 <label asp-for="Order.ShipVia" class="control-label"></label>
                 <select asp-for="Order.ShipVia" class ="form-control" asp-items="ViewBag.ShipVia"></select>
+                <span asp-validation-for="Order.ShipVia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Freight" class="control-label"></label>
+                <input asp-for="Order.Freight" class="form-control" />
+                <span asp-validation-for="Order.Freight" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Order.ShipName" class="control-label"></label>
