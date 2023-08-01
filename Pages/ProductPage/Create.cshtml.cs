@@ -2,33 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RazorNorthwinds.Data;
+using RazorNorthwinds.Mediatr.Commands;
+using RazorNorthwinds.Mediatr.Notifications;
+using RazorNorthwinds.Mediatr.Queries;
 using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Pages.ProductPage
 {
     public class CreateModel : PageModel
     {
-        private readonly RazorNorthwinds.Data.NorthwindsDbContext _context;
+        private readonly IMediator _mediator;
 
-        public CreateModel(RazorNorthwinds.Data.NorthwindsDbContext context)
+        public CreateModel(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         [BindProperty]
         public Product Product { get; set; } = default!;
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
             //ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId");
 
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName");
+            ViewData["CategoryId"] = new SelectList(await _mediator.Send(new GetCategoriesQuery()), "CategoryId", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(await _mediator.Send(new GetSuppliersQuery()), "SupplierId", "CompanyName");
 
             return Page();
         }
@@ -36,13 +40,12 @@ namespace RazorNorthwinds.Pages.ProductPage
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid || _context.Products == null || Product == null)
+            if (!ModelState.IsValid || Product == null)
             {
                 return Page();
             }
 
-            _context.Products.Add(Product);
-            await _context.SaveChangesAsync();
+            await _mediator.Send(new AddProductCommand(Product));
 
             return RedirectToPage("./Index");
         }

@@ -38,10 +38,8 @@ namespace RazorNorthwinds.Pages.CustomerPage
             {
                 return NotFound();
             }
-            else
-            {
-                Customer = customer;
-            }
+
+            Customer = customer;
             return Page();
         }
 
