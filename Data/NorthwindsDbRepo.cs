@@ -193,6 +193,11 @@ namespace RazorNorthwinds.Data
                 .FirstOrDefaultAsync(m => m.OrderId == id);
         }
 
+        public async Task<OrderSubtotal?> GetOrderSubtotalByIdAsync(int id)
+        {
+            return await _context.OrderSubtotals.FirstOrDefaultAsync(m => m.OrderId == id);
+        }
+
         #endregion Order Methods
 
         #region Shipper Methods

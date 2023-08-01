@@ -22,6 +22,7 @@ namespace RazorNorthwinds.Pages.OrderPage
         }
 
         public Order Order { get; set; } = default!;
+        public OrderSubtotal? OrderSubtotal { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
@@ -33,6 +34,10 @@ namespace RazorNorthwinds.Pages.OrderPage
             }
 
             Order = order;
+
+            var orderSubtotal = await _mediator.Send(new GetOrderSubtotalByIdQuery(id));
+            OrderSubtotal = orderSubtotal;
+
             return Page();
         }
     }

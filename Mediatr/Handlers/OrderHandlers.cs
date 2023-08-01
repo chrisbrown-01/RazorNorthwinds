@@ -50,4 +50,19 @@ namespace RazorNorthwinds.Mediatr.Handlers
             return await _db.GetOrderByIdAsync(request.Id);
         }
     }
+
+    public class GetOrderSubtotalByIdHandler : IRequestHandler<GetOrderSubtotalByIdQuery, OrderSubtotal?>
+    {
+        private readonly NorthwindsDbRepo _db;
+
+        public GetOrderSubtotalByIdHandler(NorthwindsDbRepo db)
+        {
+            _db = db;
+        }
+
+        public async Task<OrderSubtotal?> Handle(GetOrderSubtotalByIdQuery request, CancellationToken cancellationToken)
+        {
+            return await _db.GetOrderSubtotalByIdAsync(request.Id);
+        }
+    }
 }

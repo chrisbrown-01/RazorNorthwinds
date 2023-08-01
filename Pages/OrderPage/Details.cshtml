@@ -101,6 +101,7 @@
                 <th>@Html.DisplayNameFor(model => model.Order.OrderDetails.First().UnitPrice)</th>
                 <th>@Html.DisplayNameFor(model => model.Order.OrderDetails.First().Quantity)</th>
                 <th>@Html.DisplayNameFor(model => model.Order.OrderDetails.First().Discount)</th>
+                <th>@Html.DisplayNameFor(model => model.OrderSubtotal.Subtotal)</th>
             </tr>
         </thead>
         <tbody>
@@ -112,10 +113,20 @@
                     <td>@item.UnitPrice</td>
                     <td>@item.Quantity</td>
                     <td>@item.Discount</td>
+                    <td></td>
                 </tr>
             }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><b>$@Model.OrderSubtotal?.Subtotal</b></td>
+            </tr>
         </tbody>
     </table>
+
 
 </div>
 <div>
