@@ -224,14 +224,51 @@ namespace RazorNorthwinds.Data
 
         #region Shipper Methods
 
-        internal async Task<IList<Shipper>> GetShippersAsync()
+        public async Task<IList<Shipper>> GetShippersAsync()
         {
             return await _context.Shippers.ToListAsync();
         }
 
         #endregion Shipper Methods
 
-        private bool CustomerExists(string id) // TODO: make public
+        #region Sales Methods
+
+        public async Task<IList<ProductSalesForYear>> GetProductSalesForYearAsync(int year)
+        {
+            /*
+             SELECT Categories.CategoryName, Products.ProductName,
+            Sum(CONVERT(money,("Order Details".UnitPrice*Quantity*(1-Discount)/100))*100) AS ProductSales
+            FROM (Categories INNER JOIN Products ON Categories.CategoryID = Products.CategoryID)
+            INNER JOIN (Orders
+            INNER JOIN "Order Details" ON Orders.OrderID = "Order Details".OrderID)
+            ON Products.ProductID = "Order Details".ProductID
+            WHERE (((Orders.ShippedDate) Between '19970101' And '19971231'))
+            GROUP BY Categories.CategoryName, Products.ProductName
+            */
+
+            DateTime startDate = new DateTime(year, 1, 1);
+            DateTime endDate = new DateTime(year, 12, 31);
+
+            var query = from c in _context.Categories
+                        join p in _context.Products on c.CategoryId equals p.CategoryId
+                        join od in _context.OrderDetails on p.ProductId equals od.ProductId
+                        join o in _context.Orders on od.OrderId equals o.OrderId
+                        where o.ShippedDate!.Value.Year == year
+                        group od by new { c.CategoryName, p.ProductName } into g
+                        select new ProductSalesForYear
+                        {
+                            Year = year,
+                            CategoryName = g.Key.CategoryName,
+                            ProductName = g.Key.ProductName,
+                            ProductSales = g.Sum(od => od.UnitPrice * od.Quantity * (1 - (decimal)od.Discount))
+                        };
+
+            return await query.ToListAsync();
+        }
+
+        #endregion Sales Methods
+
+        private bool CustomerExists(string id) // TODO: make public?
         {
             return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
         }
