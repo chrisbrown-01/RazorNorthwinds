@@ -128,6 +128,12 @@ namespace RazorNorthwinds.Data
 
         #endregion Supplier Methods
 
+        #region Employee Methods
+
+        // test
+
+        #endregion Employee Methods
+
         private bool CustomerExists(string id) // TODO: make public
         {
             return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
