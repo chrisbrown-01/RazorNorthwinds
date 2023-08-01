@@ -157,7 +157,10 @@ namespace RazorNorthwinds.Data
 
         public async Task<Employee?> GetEmployeeByIdAsync(int id)
         {
-            return await _context.Employees.Include(e => e.ReportsToNavigation).FirstOrDefaultAsync(m => m.EmployeeId == id);
+            return await _context.Employees
+                .Include(e => e.ReportsToNavigation)
+                .Include(e => e.Territories)
+                .FirstOrDefaultAsync(m => m.EmployeeId == id);
         }
 
         #endregion Employee Methods

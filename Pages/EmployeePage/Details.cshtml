@@ -98,14 +98,25 @@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Employee.ReportsTo)
         </dt>
-        @if (Model.Employee.ReportsToNavigation is not null)
-        {
-            <dd class="col-sm-10">
+        <dd class="col-sm-10">
+            @if (Model.Employee.ReportsToNavigation is not null)
+            {
                 <a href="@Url.Action("Details", new { id = Model.Employee.ReportsToNavigation.EmployeeId })">
                     @Html.DisplayFor(model => model.Employee.ReportsToNavigation!.LastName)
                 </a>
-            </dd>
-        }
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.Territories)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var item in Model.Employee.Territories)
+            {
+                <p>
+                    @item.TerritoryId - @item.TerritoryDescription
+                </p>
+            }
+        </dd>
     </dl>
 </div>
 <div>

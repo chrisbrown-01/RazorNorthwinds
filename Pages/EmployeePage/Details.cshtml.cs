@@ -12,7 +12,7 @@ using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Pages.EmployeePage
 {
-    public class DetailsModel : PageModel
+    public class DetailsModel : PageModel // TODO: make all details tables alternating row colours
     {
         private readonly IMediator _mediator;
 
