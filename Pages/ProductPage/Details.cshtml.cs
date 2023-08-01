@@ -19,7 +19,7 @@ namespace RazorNorthwinds.Pages.ProductPage
             _context = context;
         }
 
-      public Product Product { get; set; } = default!; 
+        public Product Product { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,12 +28,36 @@ namespace RazorNorthwinds.Pages.ProductPage
                 return NotFound();
             }
 
-            var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
+            //var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
+
+            //var product = await _context.Products
+            //    .Select(p => new
+            //    {
+            //        p.ProductId,
+            //        p.ProductName,
+            //        p.SupplierId,
+            //        p.CategoryId,
+            //        p.QuantityPerUnit,
+            //        p.UnitPrice,
+            //        p.UnitsInStock,
+            //        p.UnitsOnOrder,
+            //        p.ReorderLevel,
+            //        p.Discontinued,
+            //        CategoryName = p.Category.CategoryName,
+            //        SupplierName = p.Supplier.CompanyName
+            //    })
+            //    .FirstOrDefaultAsync(m => m.ProductId == id);
+
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Supplier)
+                .FirstOrDefaultAsync(m => m.ProductId == id);
+
             if (product == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Product = product;
             }

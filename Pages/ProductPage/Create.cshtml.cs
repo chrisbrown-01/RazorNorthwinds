@@ -19,21 +19,24 @@ namespace RazorNorthwinds.Pages.ProductPage
             _context = context;
         }
 
-        public IActionResult OnGet()
-        {
-        ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
-        ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId");
-            return Page();
-        }
-
         [BindProperty]
         public Product Product { get; set; } = default!;
-        
+
+        public IActionResult OnGet()
+        {
+            //ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
+            //ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId");
+
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName");
+
+            return Page();
+        }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Products == null || Product == null)
+            if (!ModelState.IsValid || _context.Products == null || Product == null)
             {
                 return Page();
             }
