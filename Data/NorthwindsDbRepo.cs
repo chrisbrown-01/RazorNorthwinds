@@ -187,6 +187,8 @@ namespace RazorNorthwinds.Data
             return await _context.Orders
                 .Include(o => o.Customer)
                 .Include(o => o.Employee)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(o => o.Product)
                 .Include(o => o.ShipViaNavigation)
                 .FirstOrDefaultAsync(m => m.OrderId == id);
         }

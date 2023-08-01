@@ -92,6 +92,31 @@
             @Html.DisplayFor(model => model.Order.ShipViaNavigation.CompanyName)
         </dd>
     </dl>
+    <h4>Order Contents</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Order.OrderDetails.First().ProductId)</th>
+                <th>@Html.DisplayNameFor(model => model.Order.OrderDetails.First().Product.ProductName)</th>
+                <th>@Html.DisplayNameFor(model => model.Order.OrderDetails.First().UnitPrice)</th>
+                <th>@Html.DisplayNameFor(model => model.Order.OrderDetails.First().Quantity)</th>
+                <th>@Html.DisplayNameFor(model => model.Order.OrderDetails.First().Discount)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Order.OrderDetails)
+            {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.UnitPrice</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Discount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>
 <div>
     <a asp-page="./Index">Back to List</a>
