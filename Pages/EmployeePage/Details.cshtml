@@ -99,12 +99,7 @@
             @Html.DisplayNameFor(model => model.Employee.ReportsTo)
         </dt>
         <dd class="col-sm-10">
-            @if (Model.Employee.ReportsToNavigation is not null)
-            {
-                <a href="@Url.Action("Details", new { id = Model.Employee.ReportsToNavigation.EmployeeId })">
-                    @Html.DisplayFor(model => model.Employee.ReportsToNavigation!.LastName)
-                </a>
-            }
+            <a asp-page="./Details" asp-route-id="@Model.Employee.ReportsToNavigation?.EmployeeId">@Model.Employee.ReportsToNavigation?.LastName</a>
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Employee.Territories)
