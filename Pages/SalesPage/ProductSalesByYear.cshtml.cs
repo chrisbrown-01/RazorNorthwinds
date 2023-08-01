@@ -1,16 +1,18 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NuGet.Protocol;
 using RazorNorthwinds.Mediatr.Queries;
 using RazorNorthwinds.Models;
+using System.Text.Json;
 
 namespace RazorNorthwinds.Pages.SalesPage
 {
-    public class SalesByYearModel : PageModel
+    public class ProductSalesByYearModel : PageModel
     {
         private readonly IMediator _mediator;
 
-        public SalesByYearModel(IMediator mediator)
+        public ProductSalesByYearModel(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -28,6 +30,12 @@ namespace RazorNorthwinds.Pages.SalesPage
             }
 
             ProductSalesForYear = await _mediator.Send(new GetProductSalesForYearQuery(Year));
+        }
+
+        // ProductSalesByYear?handler=JsonData&year=1997
+        public async Task<JsonResult> OnGetJsonData(int year)
+        {
+            return new JsonResult(await _mediator.Send(new GetProductSalesForYearQuery(year)));
         }
     }
 }

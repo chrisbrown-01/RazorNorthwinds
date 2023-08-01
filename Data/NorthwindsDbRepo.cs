@@ -246,8 +246,8 @@ namespace RazorNorthwinds.Data
             GROUP BY Categories.CategoryName, Products.ProductName
             */
 
-            DateTime startDate = new DateTime(year, 1, 1);
-            DateTime endDate = new DateTime(year, 12, 31);
+            //DateTime startDate = new DateTime(year, 1, 1);
+            //DateTime endDate = new DateTime(year, 12, 31);
 
             var query = from c in _context.Categories
                         join p in _context.Products on c.CategoryId equals p.CategoryId

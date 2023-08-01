@@ -1,9 +1,9 @@
 ﻿@page
-@model RazorNorthwinds.Pages.SalesPage.SalesByYearModel
+@model RazorNorthwinds.Pages.SalesPage.ProductSalesByYearModel
 @{
 }
 
-<h1>Sales By Year - @Model.Year</h1>
+<h1>Product Sales By Year - @Model.Year</h1>
 
 <form method="get" class="form-inline">
     <div>
@@ -14,13 +14,8 @@
     </div>
 </form>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <h4 style="margin-left:200px">Simple Pie Chart</h4>
-            <div id="chart1"></div>
-        </div>
-    </div>
+<div class="col-md-4 mx-auto">
+    <div id="chart1"></div>
 </div>
 
 <table class="table">
@@ -63,31 +58,20 @@
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var json = {
-                cols: [
-                    { id: 'taxType', label: 'Tax Type', type: 'string' },
-                    { id: 'percent', label: 'Tax Percentage', type: 'number' }
-                ],
-                rows: [
-                    { c: [{ v: 'Soc. Sec. Tax' }, { v: 30, f: '30%' }] },
-                    { c: [{ v: 'Income Tax' }, { v: 35 }] },
-                    { c: [{ v: 'Borrowing' }, { v: 15 }] },
-                    { c: [{ v: 'Corp. Tax' }, { v: 12 }] },
-                    { c: [{ v: 'Misc' }, { v: 8 }] },
-                ],
-            };
+            $.get('ProductSalesByYear?handler=JsonData&year=@Model.Year', function (jsonData) {
+                var dataArray = [['ProductName', 'ProductSales']];
+                jsonData.forEach(function (item) {
+                    dataArray.push([item.productName, item.productSales]);
+                });
 
-            var data = new google.visualization.DataTable(json);
-
-            // Simple Pie Chart:
-            var option = {
-                title: 'Tax Structure in US',
-                width: 500,
-                height: 400
-            };
-            var chart = new google.visualization.PieChart(document.getElementById('chart1'));
-            chart.draw(data, option);
-
+                data = google.visualization.arrayToDataTable(dataArray, false);
+                var option = {
+                    width: 800,
+                    height: 800
+                };
+                chart = new google.visualization.PieChart(document.getElementById('chart1'));
+                chart.draw(data, option);
+            })
         }
     </script>
 }
