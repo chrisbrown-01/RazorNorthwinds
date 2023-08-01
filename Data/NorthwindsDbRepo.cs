@@ -78,6 +78,26 @@ namespace RazorNorthwinds.Data
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
                 .FirstOrDefaultAsync(p => p.ProductId == id);
+
+            //var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
+
+            //var product = await _context.Products
+            //    .Select(p => new
+            //    {
+            //        p.ProductId,
+            //        p.ProductName,
+            //        p.SupplierId,
+            //        p.CategoryId,
+            //        p.QuantityPerUnit,
+            //        p.UnitPrice,
+            //        p.UnitsInStock,
+            //        p.UnitsOnOrder,
+            //        p.ReorderLevel,
+            //        p.Discontinued,
+            //        CategoryName = p.Category.CategoryName,
+            //        SupplierName = p.Supplier.CompanyName
+            //    })
+            //    .FirstOrDefaultAsync(m => m.ProductId == id);
         }
 
         public async Task AddProductAsync(Product product)
@@ -130,7 +150,15 @@ namespace RazorNorthwinds.Data
 
         #region Employee Methods
 
-        // test
+        public async Task<IList<Employee>> GetEmployeesAsync()
+        {
+            return await _context.Employees.ToListAsync();
+        }
+
+        public async Task<Employee?> GetEmployeeByIdAsync(int id)
+        {
+            return await _context.Employees.Include(e => e.ReportsToNavigation).FirstOrDefaultAsync(m => m.EmployeeId == id);
+        }
 
         #endregion Employee Methods
 

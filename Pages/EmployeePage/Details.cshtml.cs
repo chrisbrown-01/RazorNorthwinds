@@ -2,41 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using RazorNorthwinds.Data;
+using RazorNorthwinds.Mediatr.Queries;
 using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Pages.EmployeePage
 {
     public class DetailsModel : PageModel
     {
-        private readonly RazorNorthwinds.Data.NorthwindsDbContext _context;
+        private readonly IMediator _mediator;
 
-        public DetailsModel(RazorNorthwinds.Data.NorthwindsDbContext context)
+        public DetailsModel(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
-      public Employee Employee { get; set; } = default!; 
+        public Employee Employee { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null || _context.Employees == null)
-            {
-                return NotFound();
-            }
+            var employee = await _mediator.Send(new GetEmployeeByIdQuery(id));
 
-            var employee = await _context.Employees.FirstOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
             {
                 return NotFound();
             }
-            else 
-            {
-                Employee = employee;
-            }
+
+            Employee = employee;
             return Page();
         }
     }

@@ -25,26 +25,6 @@ namespace RazorNorthwinds.Pages.ProductPage
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            //var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
-
-            //var product = await _context.Products
-            //    .Select(p => new
-            //    {
-            //        p.ProductId,
-            //        p.ProductName,
-            //        p.SupplierId,
-            //        p.CategoryId,
-            //        p.QuantityPerUnit,
-            //        p.UnitPrice,
-            //        p.UnitsInStock,
-            //        p.UnitsOnOrder,
-            //        p.ReorderLevel,
-            //        p.Discontinued,
-            //        CategoryName = p.Category.CategoryName,
-            //        SupplierName = p.Supplier.CompanyName
-            //    })
-            //    .FirstOrDefaultAsync(m => m.ProductId == id);
-
             var product = await _mediator.Send(new GetProductByIdQuery(id));
 
             if (product == null)
