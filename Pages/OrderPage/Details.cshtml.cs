@@ -34,9 +34,7 @@ namespace RazorNorthwinds.Pages.OrderPage
             }
 
             Order = order;
-
-            var orderSubtotal = await _mediator.Send(new GetOrderSubtotalByIdQuery(id));
-            OrderSubtotal = orderSubtotal;
+            OrderSubtotal = await _mediator.Send(new GetOrderSubtotalByIdQuery(id));
 
             return Page();
         }

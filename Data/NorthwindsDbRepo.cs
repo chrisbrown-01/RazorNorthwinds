@@ -176,9 +176,10 @@ namespace RazorNorthwinds.Data
         public async Task<IList<Order>> GetOrdersAsync()
         {
             return await _context.Orders
-                //.Include(o => o.Customer)
-                //.Include(o => o.Employee)
-                //.Include(o => o.ShipViaNavigation)
+                .Take(10) // TODO: remove take statement
+                          //.Include(o => o.Customer)
+                          //.Include(o => o.Employee)
+                          //.Include(o => o.ShipViaNavigation)
                 .ToListAsync();
         }
 
@@ -195,7 +196,28 @@ namespace RazorNorthwinds.Data
 
         public async Task<OrderSubtotal?> GetOrderSubtotalByIdAsync(int id)
         {
-            return await _context.OrderSubtotals.FirstOrDefaultAsync(m => m.OrderId == id);
+            if (await _context.OrderDetails.AnyAsync(o => o.OrderId == id) == false) return null;
+
+            return new OrderSubtotal()
+            {
+                OrderId = id,
+
+                Subtotal = await _context.OrderDetails
+                .Where(order => order.OrderId == id)
+                .Select(orderDetail => orderDetail.UnitPrice * orderDetail.Quantity * (1 - (decimal)orderDetail.Discount))
+                .SumAsync()
+            };
+
+            //var test2 = await _context.OrderSubtotals.FirstOrDefaultAsync(m => m.OrderId == id);
+
+            //// all order subtotals:
+            //var query = _context.OrderDetails
+            //    .GroupBy(o => o.OrderId)
+            //    .Select(g => new OrderSubtotal
+            //    {
+            //        OrderId = g.Key,
+            //        Subtotal = g.Sum(od => od.UnitPrice * od.Quantity * (1 - (decimal)od.Discount))
+            //    }).ToListAsync();
         }
 
         #endregion Order Methods
