@@ -12,7 +12,7 @@ using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Pages.EmployeePage
 {
-    public class IndexModel : PageModel
+    public class IndexModel : PageModel // TODO: include id in page render
     {
         private readonly IMediator _mediator;
 

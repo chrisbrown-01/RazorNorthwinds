@@ -10,6 +10,7 @@ using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Pages.OrderPage
 {
+    // TODO: hangfire auto create orders?
     public class CreateModel : PageModel
     {
         private readonly RazorNorthwinds.Data.NorthwindsDbContext _context;
@@ -19,22 +20,21 @@ namespace RazorNorthwinds.Pages.OrderPage
             _context = context;
         }
 
+        [BindProperty]
+        public Order Order { get; set; } = default!;
+
         public IActionResult OnGet()
         {
-        ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId");
-        ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeId");
-        ViewData["ShipVia"] = new SelectList(_context.Shippers, "ShipperId", "ShipperId");
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CompanyName");
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "LastName"); 
+            ViewData["ShipVia"] = new SelectList(_context.Shippers, "ShipperId", "CompanyName");
             return Page();
         }
 
-        [BindProperty]
-        public Order Order { get; set; } = default!;
-        
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        // TODO: To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        public async Task<IActionResult> OnPostAsync() // TODO: validation that dates are not previous to today, older orders, etc.
         {
-          if (!ModelState.IsValid || _context.Orders == null || Order == null)
+            if (!ModelState.IsValid || _context.Orders == null || Order == null)
             {
                 return Page();
             }

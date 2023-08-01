@@ -19,16 +19,17 @@ namespace RazorNorthwinds.Pages.OrderPage
             _context = context;
         }
 
-        public IList<Order> Order { get;set; } = default!;
+        public IList<Order> Order { get; set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync() // TODO: pagination
         {
             if (_context.Orders != null)
             {
                 Order = await _context.Orders
-                .Include(o => o.Customer)
-                .Include(o => o.Employee)
-                .Include(o => o.ShipViaNavigation).ToListAsync();
+                //.Include(o => o.Customer)
+                //.Include(o => o.Employee)
+                //.Include(o => o.ShipViaNavigation)
+                .ToListAsync();
             }
         }
     }
