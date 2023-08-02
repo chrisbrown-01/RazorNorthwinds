@@ -246,9 +246,6 @@ namespace RazorNorthwinds.Data
             GROUP BY Categories.CategoryName, Products.ProductName
             */
 
-            //DateTime startDate = new DateTime(year, 1, 1);
-            //DateTime endDate = new DateTime(year, 12, 31);
-
             var query = from c in _context.Categories
                         join p in _context.Products on c.CategoryId equals p.CategoryId
                         join od in _context.OrderDetails on p.ProductId equals od.ProductId
@@ -264,6 +261,38 @@ namespace RazorNorthwinds.Data
                         };
 
             return await query.ToListAsync();
+        }
+
+        public async Task<IList<CategorySalesForYear>> GetCategorySalesForYearAsync(int year)
+        {
+            /*
+             SELECT "Product Sales for 1997".CategoryName, Sum("Product Sales for 1997".ProductSales) AS CategorySales
+             FROM "Product Sales for 1997"
+             GROUP BY "Product Sales for 1997".CategoryName
+            */
+
+            var productSalesForYear = await GetProductSalesForYearAsync(year);
+
+            //var query = from p in productSalesForYear
+            //            group p by p.CategoryName into g
+            //            select new CategorySalesForYear
+            //            {
+            //                Year = year,
+            //                CategoryName = g.Key,
+            //                CategorySales = g.Sum(x => x.ProductSales)
+            //            };
+
+            var result = productSalesForYear
+                .GroupBy(p => p.CategoryName)
+                .Select(g => new CategorySalesForYear
+                {
+                    Year = year,
+                    CategoryName = g.Key,
+                    CategorySales = g.Sum(x => x.ProductSales)
+                })
+                .ToList();
+
+            return result;
         }
 
         #endregion Sales Methods

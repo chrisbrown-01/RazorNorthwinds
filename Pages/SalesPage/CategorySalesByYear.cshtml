@@ -1,0 +1,71 @@
+﻿@page
+@model RazorNorthwinds.Pages.SalesPage.CategorySalesByYearModel
+@{
+}
+
+<h1>Category Sales By Year - @Model.Year</h1>
+
+<form method="get" class="form-inline">
+    <div>
+        <input asp-for="Year" type="number" placeholder="1997" />
+    </div>
+    <div>
+        <input class="btn btn-primary" type="submit" value="Search">
+    </div>
+</form>
+
+<div class="col-md-4 mx-auto">
+    <div id="chart1"></div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategorySalesForYear.First().CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategorySalesForYear.First().CategorySales)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CategorySalesForYear)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategorySales)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            $.get('CategorySalesByYear?handler=JsonData&year=@Model.Year', function (jsonData) {
+                var dataArray = [['CategoryName', 'CategorySales']];
+                jsonData.forEach(function (item) {
+                    dataArray.push([item.categoryName, item.categorySales]);
+                });
+
+                data = google.visualization.arrayToDataTable(dataArray, false);
+                var option = {
+                    width: 800,
+                    height: 800
+                };
+                chart = new google.visualization.PieChart(document.getElementById('chart1'));
+                chart.draw(data, option);
+            })
+        }
+    </script>
+}

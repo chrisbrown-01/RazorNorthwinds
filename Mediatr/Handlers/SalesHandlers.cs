@@ -19,4 +19,19 @@ namespace RazorNorthwinds.Mediatr.Handlers
             return await _db.GetProductSalesForYearAsync(request.Year);
         }
     }
+
+    public class GetCategorySalesForYearHandler : IRequestHandler<GetCategorySalesForYearQuery, IList<CategorySalesForYear>>
+    {
+        private readonly NorthwindsDbRepo _db;
+
+        public GetCategorySalesForYearHandler(NorthwindsDbRepo db)
+        {
+            _db = db;
+        }
+
+        public async Task<IList<CategorySalesForYear>> Handle(GetCategorySalesForYearQuery request, CancellationToken cancellationToken)
+        {
+            return await _db.GetCategorySalesForYearAsync(request.Year);
+        }
+    }
 }
