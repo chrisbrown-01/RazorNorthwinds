@@ -3,6 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using RazorNorthwinds.Data;
 using RazorNorthwinds.Mediatr.Behaviours;
 
+// TODO: update Details/Index/etc. titles in pages to be relevant to their specific page
+// TODO: README notes that this project is simply for experimenting with EF Core, Mediatr and GraphQL. Therefore no features that I would otherwise normally include such as table result pagination/sorting/filtering, overposting protections, decimal precisions in webpage renders, etc.
+// TODO: delete unused classes and DbSets
+// TODO: find better use for notification
+// TODO: simple .txt log file
+// TODO: order create --> include products (order details)
+// TODO: improve year input field to be all inline
+// TODO: delete privacy page, include main pages in nav bar at top
+
 namespace RazorNorthwinds
 {
     public class Program

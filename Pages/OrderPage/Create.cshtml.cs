@@ -14,7 +14,6 @@ using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Pages.OrderPage
 {
-    // TODO: hangfire auto create orders?
     public class CreateModel : PageModel
     {
         private readonly IMediator _mediator;
@@ -35,8 +34,8 @@ namespace RazorNorthwinds.Pages.OrderPage
             return Page();
         }
 
-        // TODO: To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync() // TODO: validation that dates are not previous to today, older orders, etc.
+        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid || Order == null)
             {

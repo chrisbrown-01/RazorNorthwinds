@@ -23,7 +23,7 @@ namespace RazorNorthwinds.Pages.OrderPage
 
         public IList<Order> Order { get; set; } = default!;
 
-        public async Task OnGetAsync() // TODO: pagination
+        public async Task OnGetAsync()
         {
             Order = await _mediator.Send(new GetOrdersQuery());
         }

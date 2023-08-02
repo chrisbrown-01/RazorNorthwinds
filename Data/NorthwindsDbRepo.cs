@@ -23,15 +23,7 @@ namespace RazorNorthwinds.Data
         public async Task UpdateCustomerAsync(Customer customer)
         {
             _context.Attach(customer).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) // TODO: improvements?
-            {
-                throw;
-            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteCustomerAsync(string id)
@@ -109,21 +101,13 @@ namespace RazorNorthwinds.Data
         public async Task UpdateProductAsync(Product product)
         {
             _context.Attach(product).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) // TODO: improvements?
-            {
-                throw;
-            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteProductAsync(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            if (product == null) return;// TODO: logger message or throw exception
+            if (product == null) return;
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
         }
@@ -176,10 +160,9 @@ namespace RazorNorthwinds.Data
         public async Task<IList<Order>> GetOrdersAsync()
         {
             return await _context.Orders
-                .Take(10) // TODO: remove take statement
-                          //.Include(o => o.Customer)
-                          //.Include(o => o.Employee)
-                          //.Include(o => o.ShipViaNavigation)
+                //.Include(o => o.Customer)
+                //.Include(o => o.Employee)
+                //.Include(o => o.ShipViaNavigation)
                 .ToListAsync();
         }
 
@@ -296,15 +279,5 @@ namespace RazorNorthwinds.Data
         }
 
         #endregion Sales Methods
-
-        private bool CustomerExists(string id) // TODO: make public?
-        {
-            return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
-        }
-
-        private bool ProductExists(int id)
-        {
-            return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
-        }
     }
 }
