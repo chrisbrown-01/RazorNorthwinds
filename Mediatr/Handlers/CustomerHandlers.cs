@@ -8,9 +8,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class AddCustomerHandler : IRequestHandler<AddCustomerCommand>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public AddCustomerHandler(NorthwindsDbRepo db)
+        public AddCustomerHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -23,9 +23,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class UpdateCustomerHandler : IRequestHandler<UpdateCustomerCommand>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public UpdateCustomerHandler(NorthwindsDbRepo db)
+        public UpdateCustomerHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -38,9 +38,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class DeleteCustomerHandler : IRequestHandler<DeleteCustomerCommand>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public DeleteCustomerHandler(NorthwindsDbRepo db)
+        public DeleteCustomerHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -53,9 +53,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class GetCustomerByIdHandler : IRequestHandler<GetCustomerByIdQuery, Customer?>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetCustomerByIdHandler(NorthwindsDbRepo db)
+        public GetCustomerByIdHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -68,9 +68,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class GetCustomersHandler : IRequestHandler<GetCustomersQuery, IList<Customer>>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetCustomersHandler(NorthwindsDbRepo db)
+        public GetCustomersHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }

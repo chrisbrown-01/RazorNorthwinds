@@ -5,6 +5,8 @@ using RazorNorthwinds.Mediatr.Behaviours;
 using Serilog.Events;
 using Serilog.Formatting.Json;
 using Serilog;
+using NuGet.Protocol.Core.Types;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 // TODO: update Details/Index/etc. titles in pages to be relevant to their specific page
 // TODO: README notes that this project is simply for experimenting with EF Core, Mediatr and GraphQL. Therefore no features that I would otherwise normally include such as table result pagination/sorting/filtering, overposting protections, decimal precisions in webpage renders, etc.
@@ -38,13 +40,16 @@ namespace RazorNorthwinds
             builder.Services.AddDbContext<NorthwindsDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            builder.Services.AddScoped<NorthwindsDbRepo>();
+            builder.Services.AddScoped<INorthwindsDbRepo, NorthwindsDbRepo>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
             builder.Services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+
+            builder.Services
+                .AddGraphQLServer();
 
             var app = builder.Build();
 
@@ -66,6 +71,8 @@ namespace RazorNorthwinds
             app.UseAuthorization();
 
             app.MapRazorPages();
+
+            app.MapGraphQL();
 
             app.Run();
         }

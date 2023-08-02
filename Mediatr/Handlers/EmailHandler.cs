@@ -6,9 +6,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class EmailHandler : INotificationHandler<CustomerRegionUpdatedNotification>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public EmailHandler(NorthwindsDbRepo db)
+        public EmailHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }

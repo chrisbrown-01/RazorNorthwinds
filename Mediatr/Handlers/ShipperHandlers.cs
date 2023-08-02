@@ -7,9 +7,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class GetShippersHandler : IRequestHandler<GetShippersQuery, IList<Shipper>>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetShippersHandler(NorthwindsDbRepo db)
+        public GetShippersHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }

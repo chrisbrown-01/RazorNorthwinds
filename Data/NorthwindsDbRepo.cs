@@ -3,7 +3,7 @@ using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Data
 {
-    public class NorthwindsDbRepo // TODO: implement interface, use DI
+    public class NorthwindsDbRepo : INorthwindsDbRepo
     {
         private readonly NorthwindsDbContext _context;
 

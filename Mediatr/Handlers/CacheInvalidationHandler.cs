@@ -6,9 +6,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class CacheInvalidationHandler : INotificationHandler<CustomerRegionUpdatedNotification>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public CacheInvalidationHandler(NorthwindsDbRepo db)
+        public CacheInvalidationHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }

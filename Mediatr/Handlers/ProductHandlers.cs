@@ -8,9 +8,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class AddProductHandler : IRequestHandler<AddProductCommand>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public AddProductHandler(NorthwindsDbRepo db)
+        public AddProductHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -23,9 +23,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class UpdateProductHandler : IRequestHandler<UpdateProductCommand>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public UpdateProductHandler(NorthwindsDbRepo db)
+        public UpdateProductHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -38,9 +38,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public DeleteProductHandler(NorthwindsDbRepo db)
+        public DeleteProductHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -53,9 +53,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class GetProductsHandler : IRequestHandler<GetProductsQuery, IList<Product>>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetProductsHandler(NorthwindsDbRepo db)
+        public GetProductsHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -68,9 +68,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Product?>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetProductByIdHandler(NorthwindsDbRepo db)
+        public GetProductByIdHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }

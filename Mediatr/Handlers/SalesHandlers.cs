@@ -7,9 +7,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class GetProductSalesForYearHandler : IRequestHandler<GetProductSalesForYearQuery, IList<ProductSalesForYear>>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetProductSalesForYearHandler(NorthwindsDbRepo db)
+        public GetProductSalesForYearHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -22,9 +22,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class GetCategorySalesForYearHandler : IRequestHandler<GetCategorySalesForYearQuery, IList<CategorySalesForYear>>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetCategorySalesForYearHandler(NorthwindsDbRepo db)
+        public GetCategorySalesForYearHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }

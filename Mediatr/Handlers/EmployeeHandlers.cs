@@ -7,9 +7,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class GetEmployeesHandler : IRequestHandler<GetEmployeesQuery, IList<Employee>>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetEmployeesHandler(NorthwindsDbRepo db)
+        public GetEmployeesHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -22,9 +22,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class GetEmployeeByIdHandler : IRequestHandler<GetEmployeeByIdQuery, Employee?>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetEmployeeByIdHandler(NorthwindsDbRepo db)
+        public GetEmployeeByIdHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }

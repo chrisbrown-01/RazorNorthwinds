@@ -7,9 +7,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class GetSuppliersHandler : IRequestHandler<GetSuppliersQuery, IList<Supplier>>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetSuppliersHandler(NorthwindsDbRepo db)
+        public GetSuppliersHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }

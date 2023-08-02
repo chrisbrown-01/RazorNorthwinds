@@ -8,9 +8,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class AddOrderHandler : IRequestHandler<AddOrderCommand>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public AddOrderHandler(NorthwindsDbRepo db)
+        public AddOrderHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -36,9 +36,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class GetOrdersHandler : IRequestHandler<GetOrdersQuery, IList<Order>>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetOrdersHandler(NorthwindsDbRepo db)
+        public GetOrdersHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -51,9 +51,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class GetOrderByIdHandler : IRequestHandler<GetOrderByIdQuery, Order?>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetOrderByIdHandler(NorthwindsDbRepo db)
+        public GetOrderByIdHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
@@ -66,9 +66,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 
     public class GetOrderSubtotalByIdHandler : IRequestHandler<GetOrderSubtotalByIdQuery, OrderSubtotal?>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetOrderSubtotalByIdHandler(NorthwindsDbRepo db)
+        public GetOrderSubtotalByIdHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }

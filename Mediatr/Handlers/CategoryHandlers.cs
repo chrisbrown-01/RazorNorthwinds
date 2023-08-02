@@ -7,9 +7,9 @@ namespace RazorNorthwinds.Mediatr.Handlers
 {
     public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, IList<Category>>
     {
-        private readonly NorthwindsDbRepo _db;
+        private readonly INorthwindsDbRepo _db;
 
-        public GetCategoriesHandler(NorthwindsDbRepo db)
+        public GetCategoriesHandler(INorthwindsDbRepo db)
         {
             _db = db;
         }
