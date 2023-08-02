@@ -8,9 +8,9 @@ using RazorNorthwinds.Mediatr.Behaviours;
 // TODO: delete unused classes and DbSets
 // TODO: find better use for notification
 // TODO: simple .txt log file
-// TODO: order create --> include products (order details)
 // TODO: improve year input field to be all inline
 // TODO: delete privacy page, include main pages in nav bar at top
+// TODO: try to publish to azure, see if database can be converted to in-database
 
 namespace RazorNorthwinds
 {
