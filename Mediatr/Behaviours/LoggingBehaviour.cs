@@ -17,7 +17,7 @@ namespace RazorNorthwinds.Mediatr.Behaviours
 
             var response = await next();
 
-            _logger.LogInformation($"Handled {typeof(TResponse).Name}");
+            _logger.LogInformation($"Handled {typeof(TResponse).FullName}");
 
             return response;
         }
