@@ -34,7 +34,7 @@ namespace RazorNorthwinds.Pages.OrderPage
             }
 
             Order = order;
-            OrderSubtotal = await _mediator.Send(new GetOrderSubtotalByIdQuery(id));
+            OrderSubtotal = await _mediator.Send(new GetOrderSubtotalByIdQuery(id));  // TODO: note that if sqlite db is being used, these values are randomized
 
             return Page();
         }

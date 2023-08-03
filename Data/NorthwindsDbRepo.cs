@@ -184,12 +184,19 @@ namespace RazorNorthwinds.Data
             return new OrderSubtotal()
             {
                 OrderId = id,
-
-                Subtotal = await _context.OrderDetails
-                .Where(order => order.OrderId == id)
-                .Select(orderDetail => orderDetail.UnitPrice * orderDetail.Quantity * (1 - (decimal)orderDetail.Discount))
-                .SumAsync()
+                Subtotal = (decimal)Random.Shared.Next(0, 1000)
             };
+
+            // TODO: create a duplicate dbcontext for sqlite
+            //return new OrderSubtotal()
+            //{
+            //    OrderId = id,
+
+            //    Subtotal = await _context.OrderDetails
+            //    .Where(order => order.OrderId == id)
+            //    .Select(orderDetail => orderDetail.UnitPrice * orderDetail.Quantity * (1 - (decimal)orderDetail.Discount))
+            //    .SumAsync()
+            //};
 
             //var test2 = await _context.OrderSubtotals.FirstOrDefaultAsync(m => m.OrderId == id);
 
@@ -229,21 +236,79 @@ namespace RazorNorthwinds.Data
             GROUP BY Categories.CategoryName, Products.ProductName
             */
 
-            var query = from c in _context.Categories
-                        join p in _context.Products on c.CategoryId equals p.CategoryId
-                        join od in _context.OrderDetails on p.ProductId equals od.ProductId
-                        join o in _context.Orders on od.OrderId equals o.OrderId
-                        where o.ShippedDate!.Value.Year == year
-                        group od by new { c.CategoryName, p.ProductName } into g
-                        select new ProductSalesForYear
-                        {
-                            Year = year,
-                            CategoryName = g.Key.CategoryName,
-                            ProductName = g.Key.ProductName,
-                            ProductSales = g.Sum(od => od.UnitPrice * od.Quantity * (1 - (decimal)od.Discount))
-                        };
+            // TODO: create a duplicate dbcontext for sqlite
+            //var query = from c in _context.Categories
+            //            join p in _context.Products on c.CategoryId equals p.CategoryId
+            //            join od in _context.OrderDetails on p.ProductId equals od.ProductId
+            //            join o in _context.Orders on od.OrderId equals o.OrderId
+            //            where o.ShippedDate!.Value.Year == year
+            //            group od by new { c.CategoryName, p.ProductName } into g
+            //            select new ProductSalesForYear
+            //            {
+            //                Year = year,
+            //                CategoryName = g.Key.CategoryName,
+            //                ProductName = g.Key.ProductName,
+            //                ProductSales = g.Sum(od => od.UnitPrice * od.Quantity * (1 - (decimal)od.Discount))
+            //            };
+            //return await query.ToListAsync();
 
-            return await query.ToListAsync();
+            var products = _context.Products.AsEnumerable();
+            var productSalesForYear = new List<ProductSalesForYear>();
+
+            foreach (var product in products)
+            {
+                productSalesForYear.Add(new ProductSalesForYear
+                {
+                    Year = 1997,
+                    ProductName = product.ProductName,
+                    CategoryName = product.CategoryId.ToString(),
+                    ProductSales = (decimal)Random.Shared.Next(1, 50000)
+                });
+            }
+
+            foreach (var product in productSalesForYear)
+            {
+                switch (product.CategoryName)
+                {
+                    case "1":
+                        product.CategoryName = "Beverages";
+                        break;
+
+                    case "2":
+                        product.CategoryName = "Condiments";
+                        break;
+
+                    case "3":
+                        product.CategoryName = "Confections";
+                        break;
+
+                    case "4":
+                        product.CategoryName = "Dairy Products";
+                        break;
+
+                    case "5":
+                        product.CategoryName = "Grains/Cereals";
+                        break;
+
+                    case "6":
+                        product.CategoryName = "Meat/Poultry";
+                        break;
+
+                    case "7":
+                        product.CategoryName = "Produce";
+                        break;
+
+                    case "8":
+                        product.CategoryName = "Seafood";
+                        break;
+
+                    default:
+                        product.CategoryName = "Seafood";
+                        break;
+                }
+            }
+
+            return productSalesForYear;
         }
 
         public async Task<IList<CategorySalesForYear>> GetCategorySalesForYearAsync(int year)

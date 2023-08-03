@@ -31,10 +31,14 @@ namespace RazorNorthwinds
 
             builder.Host.UseSerilog(); // redirect all log events through your Serilog pipeline
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            // TODO: create a duplicate dbcontext for sqlite
+            //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            var connectionString = builder.Configuration.GetConnectionString("SqliteConnection") ?? throw new InvalidOperationException("Connection string 'SqliteConnection' not found.");
 
             builder.Services.AddDbContext<NorthwindsDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlite(connectionString)
+                //options.UseSqlServer(connectionString)
+                );
 
             builder.Services.AddScoped<INorthwindsDbRepo, NorthwindsDbRepo>();
 

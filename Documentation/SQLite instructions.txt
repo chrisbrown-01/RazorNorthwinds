@@ -1,0 +1,20 @@
+NOTE: don't follow these instructions because the Northwind4SQLite.sql file is missing some of the required tables such as Employees. 
+I am only keeping this in the repo for reference in case I need to follow similar instructions to this in the future.
+
+Download and unzip folder contents per this website instruction: https://www.sqlitetutorial.net/download-install-sqlite/
+
+Download the .sql file: https://github.com/markjprice/cs7dotnetcore2/blob/master/sql-scripts/Northwind4SQLite.sql
+
+Instructions:
+1. First, create a new folder e.g., C:\sqlite.
+2. Second, extract the content of the file that you downloaded in the previous section to the C:\sqlite folder. You should see three programs in the C:\sqlite folder (3 .exe files, this is the sqlite-tools-win32-x86 zip file on the sqlite download page_.
+
+
+Open the Control Panel and go to System and Security > System > Advanced system settings.
+Click on the Environment Variables button at the bottom.
+In the System variables section, find the variable named Path and click on Edit.
+In the Edit environment variable window, click on New and type in the full path of the folder where you have sqlite3.exe, for example C:\sqlite.
+Click on OK to save the changes and close all the windows.
+
+
+Open Powershell, navigate to folder where the .sql file is located, then run command: Get-Content Northwind4SQLite.sql | sqlite3 Northwind.db

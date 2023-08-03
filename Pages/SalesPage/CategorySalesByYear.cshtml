@@ -6,6 +6,11 @@
 
 <h1>Category Sales By Year - @Model.Year</h1>
 
+<h5>
+    Note - these values are randomized because the Northwinds table cannot directly convert from SQL Server to SQLite.
+    If using the SQL Server database and uncommented repo method, these values are constant and correct. 
+</h5>
+
 <form method="get" style="display: flex; justify-content: center;">
     <input asp-for="Year" type="number" placeholder="1997" />
     <input class="btn btn-primary" type="submit" value="Search">
