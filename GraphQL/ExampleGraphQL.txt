@@ -1,0 +1,61 @@
+﻿query {
+  customers {
+    customerId
+    companyName
+    contactTitle
+    country
+    address
+    orders{
+      orderId
+      orderDate
+    }
+    postalCode
+  }
+}
+
+query {
+  customerById(id: "ALFKI"){
+    companyName
+    contactName
+    address
+  }
+}
+
+// NOTE: see how in mutations, you must specify atleast one property to capture the response
+mutation {
+  addCustomer(input: {
+    customerId: "aaa",
+    companyName: "New Company",
+    contactName: "New Contact",
+    contactTitle: "New Title",
+    address: "New Address",
+    city: "New City",
+  }) {
+    customerId
+  }
+}
+
+mutation {
+  updateCustomer(input: {
+    customerId: "newid"
+    companyName: "Updated Name",
+    contactName: "Updated Name"
+  }) {
+  customerId
+  companyName
+  contactName
+  contactTitle
+  address
+  city:
+  region
+  postalCode
+  country
+  phone
+  fax
+  }
+}
+
+mutation{
+  deleteCustomer(customerId: "aaa")
+}
+

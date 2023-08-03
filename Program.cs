@@ -7,9 +7,10 @@ using Serilog.Formatting.Json;
 using Serilog;
 using NuGet.Protocol.Core.Types;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using RazorNorthwinds.GraphQL;
 
 // TODO: update Details/Index/etc. titles in pages to be relevant to their specific page
-// TODO: README notes that this project is simply for experimenting with EF Core, Mediatr and GraphQL. Therefore no features that I would otherwise normally include such as table result pagination/sorting/filtering, overposting protections, decimal precisions in webpage renders, etc.
+// TODO: README notes that this project is simply for experimenting with EF Core, Mediatr and GraphQL. Therefore no features that I would otherwise normally include such as table result pagination/sorting/filtering, overposting protections, decimal precisions in webpage renders, proper logging and exception handling, etc.
 // TODO: delete unused classes and DbSets
 // TODO: improve year input field to be all inline
 // TODO: delete privacy page, include main pages in nav bar at top
@@ -48,8 +49,12 @@ namespace RazorNorthwinds
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
             builder.Services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
+            builder.Services.AddScoped<GraphQL.Query>();
+            builder.Services.AddScoped<GraphQL.Mutation>();
             builder.Services
-                .AddGraphQLServer();
+                .AddGraphQLServer()
+                .AddQueryType<GraphQL.Query>()
+                .AddMutationType<GraphQL.Mutation>();
 
             var app = builder.Build();
 
