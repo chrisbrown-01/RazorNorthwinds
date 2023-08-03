@@ -8,9 +8,9 @@ using Serilog;
 using NuGet.Protocol.Core.Types;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using RazorNorthwinds.GraphQL;
+using Microsoft.Extensions.DependencyInjection;
 
 // TODO: README notes that this project is simply for experimenting with EF Core, Mediatr and GraphQL. Therefore no features that I would otherwise normally include such as table result pagination/sorting/filtering, overposting protections, decimal precisions in webpage renders, proper logging and exception handling, etc.
-// TODO: try to publish to azure, see if database can be converted to in-database
 
 namespace RazorNorthwinds
 {
@@ -31,16 +31,26 @@ namespace RazorNorthwinds
 
             builder.Host.UseSerilog(); // redirect all log events through your Serilog pipeline
 
-            // TODO: create a duplicate dbcontext for sqlite
-            //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            var connectionString = builder.Configuration.GetConnectionString("SqliteConnection") ?? throw new InvalidOperationException("Connection string 'SqliteConnection' not found.");
+            var useSqlServer = builder.Configuration.GetSection("UseSqlServerDatabase").Value;
 
-            builder.Services.AddDbContext<NorthwindsDbContext>(options =>
-                options.UseSqlite(connectionString)
-                //options.UseSqlServer(connectionString)
-                );
+            if (useSqlServer == "true")
+            {
+                var connectionString = builder.Configuration.GetConnectionString("SqlServerConnection") ?? throw new InvalidOperationException("Connection string 'SqlServerConnection' not found.");
 
-            builder.Services.AddScoped<INorthwindsDbRepo, NorthwindsDbRepo>();
+                builder.Services.AddDbContext<NorthwindsDbSqlServerContext>(options =>
+                    options.UseSqlServer(connectionString));
+
+                builder.Services.AddScoped<INorthwindsDbRepo, NorthwindsDbSqlServerRepo>();
+            }
+            else
+            {
+                var connectionString = builder.Configuration.GetConnectionString("SqliteConnection") ?? throw new InvalidOperationException("Connection string 'SqliteConnection' not found.");
+
+                builder.Services.AddDbContext<NorthwindsDbSqliteContext>(options =>
+                    options.UseSqlite(connectionString));
+
+                builder.Services.AddScoped<INorthwindsDbRepo, NorthwindsDbSqliteRepo>();
+            }
 
             // Add services to the container.
             builder.Services.AddRazorPages();

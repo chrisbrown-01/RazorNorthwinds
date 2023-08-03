@@ -6,13 +6,13 @@ using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Data;
 
-public partial class NorthwindsDbContext : DbContext
+public partial class NorthwindsDbSqlServerContext : DbContext
 {
-    public NorthwindsDbContext()
+    public NorthwindsDbSqlServerContext()
     {
     }
 
-    public NorthwindsDbContext(DbContextOptions<NorthwindsDbContext> options)
+    public NorthwindsDbSqlServerContext(DbContextOptions<NorthwindsDbSqlServerContext> options)
         : base(options)
     {
     }
@@ -71,10 +71,9 @@ public partial class NorthwindsDbContext : DbContext
 
     public virtual DbSet<Territory> Territories { get; set; }
 
-    // TODO: create a duplicate dbcontext for sqlite
-    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-    //        => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=Northwinds;Trusted_Connection=True;Encrypt=False;Trust Server Certificate=False");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=Northwinds;Trusted_Connection=True;Encrypt=False;Trust Server Certificate=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -3,11 +3,11 @@ using RazorNorthwinds.Models;
 
 namespace RazorNorthwinds.Data
 {
-    public class NorthwindsDbRepo : INorthwindsDbRepo
+    public class NorthwindsDbSqliteRepo : INorthwindsDbRepo
     {
-        private readonly NorthwindsDbContext _context;
+        private readonly NorthwindsDbSqliteContext _context;
 
-        public NorthwindsDbRepo(NorthwindsDbContext context)
+        public NorthwindsDbSqliteRepo(NorthwindsDbSqliteContext context)
         {
             _context = context;
         }
@@ -70,26 +70,6 @@ namespace RazorNorthwinds.Data
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
                 .FirstOrDefaultAsync(p => p.ProductId == id);
-
-            //var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
-
-            //var product = await _context.Products
-            //    .Select(p => new
-            //    {
-            //        p.ProductId,
-            //        p.ProductName,
-            //        p.SupplierId,
-            //        p.CategoryId,
-            //        p.QuantityPerUnit,
-            //        p.UnitPrice,
-            //        p.UnitsInStock,
-            //        p.UnitsOnOrder,
-            //        p.ReorderLevel,
-            //        p.Discontinued,
-            //        CategoryName = p.Category.CategoryName,
-            //        SupplierName = p.Supplier.CompanyName
-            //    })
-            //    .FirstOrDefaultAsync(m => m.ProductId == id);
         }
 
         public async Task AddProductAsync(Product product)
@@ -159,11 +139,7 @@ namespace RazorNorthwinds.Data
 
         public async Task<IList<Order>> GetOrdersAsync()
         {
-            return await _context.Orders
-                //.Include(o => o.Customer)
-                //.Include(o => o.Employee)
-                //.Include(o => o.ShipViaNavigation)
-                .ToListAsync();
+            return await _context.Orders.ToListAsync();
         }
 
         public async Task<Order?> GetOrderByIdAsync(int id)
@@ -186,28 +162,6 @@ namespace RazorNorthwinds.Data
                 OrderId = id,
                 Subtotal = (decimal)Random.Shared.Next(0, 1000)
             };
-
-            // TODO: create a duplicate dbcontext for sqlite
-            //return new OrderSubtotal()
-            //{
-            //    OrderId = id,
-
-            //    Subtotal = await _context.OrderDetails
-            //    .Where(order => order.OrderId == id)
-            //    .Select(orderDetail => orderDetail.UnitPrice * orderDetail.Quantity * (1 - (decimal)orderDetail.Discount))
-            //    .SumAsync()
-            //};
-
-            //var test2 = await _context.OrderSubtotals.FirstOrDefaultAsync(m => m.OrderId == id);
-
-            //// all order subtotals:
-            //var query = _context.OrderDetails
-            //    .GroupBy(o => o.OrderId)
-            //    .Select(g => new OrderSubtotal
-            //    {
-            //        OrderId = g.Key,
-            //        Subtotal = g.Sum(od => od.UnitPrice * od.Quantity * (1 - (decimal)od.Discount))
-            //    }).ToListAsync();
         }
 
         #endregion Order Methods
@@ -225,33 +179,6 @@ namespace RazorNorthwinds.Data
 
         public async Task<IList<ProductSalesForYear>> GetProductSalesForYearAsync(int year)
         {
-            /*
-             SELECT Categories.CategoryName, Products.ProductName,
-            Sum(CONVERT(money,("Order Details".UnitPrice*Quantity*(1-Discount)/100))*100) AS ProductSales
-            FROM (Categories INNER JOIN Products ON Categories.CategoryID = Products.CategoryID)
-            INNER JOIN (Orders
-            INNER JOIN "Order Details" ON Orders.OrderID = "Order Details".OrderID)
-            ON Products.ProductID = "Order Details".ProductID
-            WHERE (((Orders.ShippedDate) Between '19970101' And '19971231'))
-            GROUP BY Categories.CategoryName, Products.ProductName
-            */
-
-            // TODO: create a duplicate dbcontext for sqlite
-            //var query = from c in _context.Categories
-            //            join p in _context.Products on c.CategoryId equals p.CategoryId
-            //            join od in _context.OrderDetails on p.ProductId equals od.ProductId
-            //            join o in _context.Orders on od.OrderId equals o.OrderId
-            //            where o.ShippedDate!.Value.Year == year
-            //            group od by new { c.CategoryName, p.ProductName } into g
-            //            select new ProductSalesForYear
-            //            {
-            //                Year = year,
-            //                CategoryName = g.Key.CategoryName,
-            //                ProductName = g.Key.ProductName,
-            //                ProductSales = g.Sum(od => od.UnitPrice * od.Quantity * (1 - (decimal)od.Discount))
-            //            };
-            //return await query.ToListAsync();
-
             var products = _context.Products.AsEnumerable();
             var productSalesForYear = new List<ProductSalesForYear>();
 
@@ -261,7 +188,7 @@ namespace RazorNorthwinds.Data
                 {
                     Year = 1997,
                     ProductName = product.ProductName,
-                    CategoryName = product.CategoryId.ToString(),
+                    CategoryName = product.CategoryId?.ToString() ?? "",
                     ProductSales = (decimal)Random.Shared.Next(1, 50000)
                 });
             }
@@ -308,27 +235,12 @@ namespace RazorNorthwinds.Data
                 }
             }
 
-            return productSalesForYear;
+            return await Task.FromResult(productSalesForYear);
         }
 
         public async Task<IList<CategorySalesForYear>> GetCategorySalesForYearAsync(int year)
         {
-            /*
-             SELECT "Product Sales for 1997".CategoryName, Sum("Product Sales for 1997".ProductSales) AS CategorySales
-             FROM "Product Sales for 1997"
-             GROUP BY "Product Sales for 1997".CategoryName
-            */
-
             var productSalesForYear = await GetProductSalesForYearAsync(year);
-
-            //var query = from p in productSalesForYear
-            //            group p by p.CategoryName into g
-            //            select new CategorySalesForYear
-            //            {
-            //                Year = year,
-            //                CategoryName = g.Key,
-            //                CategorySales = g.Sum(x => x.ProductSales)
-            //            };
 
             var result = productSalesForYear
                 .GroupBy(p => p.CategoryName)

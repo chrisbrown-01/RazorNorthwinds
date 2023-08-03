@@ -2,3 +2,5 @@
 Install-Package Microsoft.EntityFrameworkCore.Tools
 
 Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=Northwinds;Trusted_Connection=True;Encrypt=False;Trust Server Certificate=False" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+In future: Scaffold dbcontext again using "-ContextDir Data -OutputDir Models -DataAnnotation" flags
