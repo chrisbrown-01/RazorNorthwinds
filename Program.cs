@@ -9,10 +9,8 @@ using NuGet.Protocol.Core.Types;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using RazorNorthwinds.GraphQL;
 
-// TODO: update Details/Index/etc. titles in pages to be relevant to their specific page
 // TODO: README notes that this project is simply for experimenting with EF Core, Mediatr and GraphQL. Therefore no features that I would otherwise normally include such as table result pagination/sorting/filtering, overposting protections, decimal precisions in webpage renders, proper logging and exception handling, etc.
 // TODO: improve year input field to be all inline
-// TODO: delete privacy page, include main pages in nav bar at top
 // TODO: try to publish to azure, see if database can be converted to in-database
 
 namespace RazorNorthwinds
