@@ -6,16 +6,12 @@
 
 <h1>Product Sales By Year - @Model.Year</h1>
 
-<form method="get" class="form-inline">
-    <div>
-        <input asp-for="Year" type="number" placeholder="1997" />
-    </div>
-    <div>
-        <input class="btn btn-primary" type="submit" value="Search">
-    </div>
+<form method="get" style="display: flex; justify-content: center;">
+    <input asp-for="Year" type="number" placeholder="1997" />
+    <input class="btn btn-primary" type="submit" value="Search">
 </form>
 
-<div class="col-md-4 mx-auto">
+<div class="col-md-6 mx-auto">
     <div id="chart1"></div>
 </div>
 
