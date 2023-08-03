@@ -2,7 +2,6 @@
 using RazorNorthwinds.Mediatr.Commands;
 using RazorNorthwinds.Mediatr.Queries;
 using RazorNorthwinds.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace RazorNorthwinds.GraphQL
 {

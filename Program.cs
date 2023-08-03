@@ -2,13 +2,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RazorNorthwinds.Data;
 using RazorNorthwinds.Mediatr.Behaviours;
-using Serilog.Events;
-using Serilog.Formatting.Json;
 using Serilog;
-using NuGet.Protocol.Core.Types;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using RazorNorthwinds.GraphQL;
-using Microsoft.Extensions.DependencyInjection;
+using Serilog.Events;
 
 // TODO: README notes that this project is simply for experimenting with EF Core, Mediatr and GraphQL. Therefore no features that I would otherwise normally include such as table result pagination/sorting/filtering, overposting protections, decimal precisions in webpage renders, proper logging and exception handling, etc.
 

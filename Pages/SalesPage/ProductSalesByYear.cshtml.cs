@@ -1,10 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using NuGet.Protocol;
 using RazorNorthwinds.Mediatr.Queries;
 using RazorNorthwinds.Models;
-using System.Text.Json;
 
 namespace RazorNorthwinds.Pages.SalesPage
 {

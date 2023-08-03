@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RazorNorthwinds.Pages
 {
@@ -14,7 +13,6 @@ namespace RazorNorthwinds.Pages
 
         public void OnGet()
         {
-
         }
     }
 }

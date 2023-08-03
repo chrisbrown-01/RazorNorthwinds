@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using RazorNorthwinds.Data;
 using RazorNorthwinds.Mediatr.Queries;
 using RazorNorthwinds.Models;
 
