@@ -62,7 +62,7 @@ namespace RazorNorthwinds.GraphQL
         }
 
         // Note that custom validations or 3rd party libraries are required
-        // (outside of CustomerId/CompanyName non-null fields). Attributes do not work
+        // (except for CustomerId/CompanyName non-null fields). Attributes do not work
         public class CustomerInput
         {
             public string CustomerId { get; set; } = null!;

@@ -21,6 +21,31 @@ query {
   }
 }
 
+query{
+   orderById(id: 10500)
+   {
+    orderId
+    orderDetails
+    {
+      orderId
+      productId
+      unitPrice
+    }
+    shipName
+    customerId
+   }
+}
+
+query{
+   productSalesForYear(year: 1997)
+   {
+    year
+    categoryName
+    productName
+    productSales
+    }
+}
+
 // NOTE: see how in mutations, you must specify atleast one property to capture the response
 mutation {
   addCustomer(input: {
