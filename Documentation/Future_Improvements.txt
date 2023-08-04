@@ -1,0 +1,2 @@
+- Implement split queries: https://learn.microsoft.com/en-us/ef/core/querying/single-split-queries
+- Can use lazy loading & proxies for class properties defined as virtual: https://learn.microsoft.com/en-us/ef/core/querying/related-data/lazy
